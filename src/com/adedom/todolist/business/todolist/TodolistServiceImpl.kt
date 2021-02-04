@@ -4,6 +4,7 @@ import com.adedom.todolist.business.default.DefaultBusiness
 import com.adedom.todolist.business.model.TodolistAll
 import com.adedom.todolist.data.repository.DefaultRepository
 import com.adedom.todolist.models.request.AddTodolistRequest
+import com.adedom.todolist.models.request.ChangeTodolistRequest
 import com.adedom.todolist.models.response.BaseResponse
 import com.adedom.todolist.models.response.TodolistAllResponse
 import io.ktor.locations.*
@@ -68,6 +69,31 @@ internal class TodolistServiceImpl(
             else -> {
                 response.success = repository.addTodolist(userId, addTodolistRequest)
                 "Add todolist success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun changeTodolist(changeTodolistRequest: ChangeTodolistRequest): BaseResponse {
+        val response = BaseResponse()
+        val (todolistId, title, content) = changeTodolistRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            todolistId.isNullOrBlank() -> "todolistId isNullOrBlank"
+            title.isNullOrBlank() -> "title isNullOrBlank"
+            content.isNullOrBlank() -> "content isNullOrBlank"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                response.success = repository.changeTodolist(changeTodolistRequest)
+                "Change todolist success"
             }
         }
 
