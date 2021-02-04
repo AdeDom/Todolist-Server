@@ -2,7 +2,10 @@ package com.adedom.todolist
 
 import com.adedom.todolist.business.auth.AuthService
 import com.adedom.todolist.business.di.getBusinessModule
+import com.adedom.todolist.business.todolist.TodolistService
+import com.adedom.todolist.data.di.getDataModule
 import com.adedom.todolist.http.authController
+import com.adedom.todolist.http.todolistController
 import com.adedom.todolist.utils.DatabaseConfig
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -55,13 +58,15 @@ fun Application.module() {
     // koin dependencies injection
     install(Koin) {
         SLF4JLogger()
-        modules(getBusinessModule)
+        modules(getBusinessModule, getDataModule)
     }
     val authService: AuthService by inject()
+    val todolistService: TodolistService by inject()
 
     // route
     install(Routing) {
         authController(authService)
+        todolistController(todolistService)
     }
 
 }
