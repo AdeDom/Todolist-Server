@@ -3,6 +3,7 @@ package com.adedom.todolist.http
 import com.adedom.todolist.business.todolist.TodolistService
 import com.adedom.todolist.models.request.AddTodolistRequest
 import com.adedom.todolist.models.request.ChangeTodolistRequest
+import com.adedom.todolist.models.request.RemoveTodolistRequest
 import com.adedom.todolist.models.request.TodolistAllRequest
 import io.ktor.application.*
 import io.ktor.locations.*
@@ -28,6 +29,11 @@ internal fun Route.todolistController(service: TodolistService) {
     put<ChangeTodolistRequest> {
         val request = call.receive<ChangeTodolistRequest>()
         val response = service.changeTodolist(request)
+        call.respond(response)
+    }
+
+    delete<RemoveTodolistRequest> { request ->
+        val response = service.removeTodolist(request)
         call.respond(response)
     }
 

@@ -5,6 +5,7 @@ import com.adedom.todolist.data.model.TodolistDb
 import com.adedom.todolist.data.table.TodoLists
 import com.adedom.todolist.models.request.AddTodolistRequest
 import com.adedom.todolist.models.request.ChangeTodolistRequest
+import com.adedom.todolist.models.request.RemoveTodolistRequest
 import io.ktor.locations.*
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
@@ -58,6 +59,19 @@ internal class DefaultRepositoryImpl(
                 it[TodoLists.title] = title!!
                 it[TodoLists.content] = content!!
                 it[TodoLists.updated] = System.currentTimeMillis()
+            }
+        }
+
+        return result == 1
+    }
+
+    override fun removeTodolist(removeTodolistRequest: RemoveTodolistRequest): Boolean {
+        val (todolistId) = removeTodolistRequest
+
+        val result = transaction {
+            TodoLists.update({ TodoLists.todolistId eq todolistId!! }) {
+                it[TodoLists.updated] = System.currentTimeMillis()
+                it[TodoLists.isShow] = false
             }
         }
 

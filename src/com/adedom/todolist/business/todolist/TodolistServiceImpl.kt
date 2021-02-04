@@ -5,6 +5,7 @@ import com.adedom.todolist.business.model.TodolistAll
 import com.adedom.todolist.data.repository.DefaultRepository
 import com.adedom.todolist.models.request.AddTodolistRequest
 import com.adedom.todolist.models.request.ChangeTodolistRequest
+import com.adedom.todolist.models.request.RemoveTodolistRequest
 import com.adedom.todolist.models.response.BaseResponse
 import com.adedom.todolist.models.response.TodolistAllResponse
 import io.ktor.locations.*
@@ -94,6 +95,29 @@ internal class TodolistServiceImpl(
             else -> {
                 response.success = repository.changeTodolist(changeTodolistRequest)
                 "Change todolist success"
+            }
+        }
+
+        response.message = message
+        return response
+    }
+
+    override fun removeTodolist(removeTodolistRequest: RemoveTodolistRequest): BaseResponse {
+        val response = BaseResponse()
+        val (todolistId) = removeTodolistRequest
+
+        val message: String = when {
+            // validate Null Or Blank
+            todolistId.isNullOrBlank() -> "todolistId isNullOrBlank"
+
+            // validate values of variable
+
+            // validate database
+
+            // execute
+            else -> {
+                response.success = repository.removeTodolist(removeTodolistRequest)
+                "Remove todolist success"
             }
         }
 
