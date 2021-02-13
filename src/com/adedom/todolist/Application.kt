@@ -57,9 +57,11 @@ fun Application.module() {
         method(HttpMethod.Put)
         method(HttpMethod.Patch)
         method(HttpMethod.Delete)
+        method(HttpMethod.Options)
         host(host = "localhost:8080", schemes = listOf("http"))
         host(host = "localhost:8081", schemes = listOf("http"))
         host(host = "todolist-web-94.herokuapp.com", schemes = listOf("https"))
+        allowNonSimpleContentTypes = true
     }
 
     // json
