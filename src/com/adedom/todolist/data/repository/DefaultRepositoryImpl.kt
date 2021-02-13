@@ -7,11 +7,13 @@ import com.adedom.todolist.models.request.AddTodolistRequest
 import com.adedom.todolist.models.request.ChangeTodolistRequest
 import com.adedom.todolist.models.request.RemoveTodolistRequest
 import io.ktor.locations.*
+import io.ktor.util.*
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
+@InternalAPI
 @KtorExperimentalLocationsAPI
 internal class DefaultRepositoryImpl(
     private val mapper: Mapper,
@@ -41,8 +43,8 @@ internal class DefaultRepositoryImpl(
             TodoLists.insert {
                 it[TodoLists.todolistId] = todolistId!!
                 it[TodoLists.userId] = userId
-                it[TodoLists.title] = title!!
-                it[TodoLists.content] = content!!
+                it[TodoLists.title] = title!!.encodeBase64()
+                it[TodoLists.content] = content!!.encodeBase64()
                 it[TodoLists.created] = System.currentTimeMillis()
                 it[TodoLists.isShow] = true
             }
@@ -56,8 +58,8 @@ internal class DefaultRepositoryImpl(
 
         val result = transaction {
             TodoLists.update({ TodoLists.todolistId eq todolistId!! }) {
-                it[TodoLists.title] = title!!
-                it[TodoLists.content] = content!!
+                it[TodoLists.title] = title!!.encodeBase64()
+                it[TodoLists.content] = content!!.encodeBase64()
                 it[TodoLists.updated] = System.currentTimeMillis()
             }
         }

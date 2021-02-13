@@ -21,6 +21,7 @@ import io.ktor.locations.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.server.netty.*
+import io.ktor.util.*
 import org.jetbrains.exposed.sql.Database
 import org.koin.ktor.ext.Koin
 import org.koin.ktor.ext.inject
@@ -28,11 +29,12 @@ import org.koin.logger.SLF4JLogger
 
 fun main(args: Array<String>): Unit = EngineMain.main(args)
 
+@InternalAPI
 @KtorExperimentalLocationsAPI
 fun Application.module() {
 
     // database mysql
-    val databaseConfig = DatabaseConfig.Localhost
+    val databaseConfig = DatabaseConfig.Cleardb
     val config = HikariConfig().apply {
         jdbcUrl = databaseConfig.jdbcUrl
         driverClassName = "com.mysql.cj.jdbc.Driver"
