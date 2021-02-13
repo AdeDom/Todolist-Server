@@ -17,6 +17,7 @@ import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
 import io.ktor.features.*
+import io.ktor.http.*
 import io.ktor.locations.*
 import io.ktor.routing.*
 import io.ktor.serialization.*
@@ -48,6 +49,18 @@ fun Application.module() {
     // start project
     install(DefaultHeaders)
     install(CallLogging)
+
+    // Cross-Origin Resource Sharing
+    install(CORS) {
+        method(HttpMethod.Get)
+        method(HttpMethod.Post)
+        method(HttpMethod.Put)
+        method(HttpMethod.Patch)
+        method(HttpMethod.Delete)
+        host(host = "localhost:8080", schemes = listOf("http"))
+        host(host = "localhost:8081", schemes = listOf("http"))
+        host(host = "todolist-web-94.herokuapp.com", schemes = listOf("https"))
+    }
 
     // json
     install(ContentNegotiation) {
