@@ -1,13 +1,13 @@
 package com.adedom.todolist.business.default
 
 import java.text.SimpleDateFormat
-import java.util.*
 
 internal class DefaultBusiness {
 
     fun getDateTimeLongToString(dateTime: Long?): String {
         return dateTime?.let {
-            SimpleDateFormat("dd/MM/yyyy HH:mm", Locale("th", "TH")).format(dateTime)
+            val timeThai = dateTime + (1_000 * 60 * 60 * 7) // time server
+            SimpleDateFormat("dd/MM/yyyy HH:mm").format(timeThai)
         } ?: ""
     }
 
